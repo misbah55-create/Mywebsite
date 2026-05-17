@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sargodha Tahleel & Lab – Gold Specialists</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dark: #8B6914;
+    --deep: #0A0804;
+    --dark: #110E07;
+    --mid: #1C1710;
+    --cream: #F5EDD6;
+    --text: #E8D9A8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── Particles Canvas ── */
+  #particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(10,8,4,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    opacity: 0.8;
+  }
+  .nav-links a:hover { color: var(--gold-light); opacity: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 30% 30% at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  }
+
+  .hero-ornament {
+    position: absolute;
+    width: 600px; height: 600px;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: rotateSlow 40s linear infinite;
+  }
+  .hero-ornament::before {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 50%;
+    animation: rotateSlow 25s linear infinite reverse;
+  }
+  .hero-ornament::after {
+    content: '';
+    position: absolute;
+    inset: 80px;
+    border: 1px dashed rgba(201,168,76,0.08);
+    border-radius: 50%;
+  }
+  @keyframes rotateSlow { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+  .hero-content { position: relative; z-index: 2; padding: 0 20px; }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 6px 20px;
+    margin-bottom: 32px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .hero-urdu {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    line-height: 1.6;
+    color: var(--gold-light);
+    direction: rtl;
+    text-shadow: 0 0 60px rgba(201,168,76,0.3);
+    animation: fadeUp 1s ease 0.4s both;
+    margin-bottom: 8px;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 1s ease 0.5s both;
+    letter-spacing: -1px;
+  }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    font-style: italic;
+    color: var(--gold);
+    margin-top: 8px;
+    animation: fadeUp 1s ease 0.65s both;
+    opacity: 0.8;
+  }
+
+  .hero-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 32px auto;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text);
+    opacity: 0.75;
+    max-width: 520px;
+    margin: 0 auto 40px;
+    animation: fadeUp 1s ease 0.9s both;
+  }
+
+  .hero-cta {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 1s ease 1.1s both;
+  }
+
+  .btn-gold {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 24px rgba(201,168,76,0.3);
+  }
+  .btn-gold::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  .btn-gold:hover::before { left: 100%; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.5); }
+
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold-light);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: fadeUp 1s ease 1.5s both;
+    opacity: 0.5;
+  }
+  .scroll-indicator span {
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.3; transform: scaleY(0.5); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { position: relative; z-index: 1; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .section-line {
+    width: 60px; height: 2px;
+    background: var(--gold);
+    margin: 20px auto 0;
+  }
+
+  /* ── SERVICES ── */
+  .services {
+    padding: 120px 40px;
+    background: linear-gradient(to bottom, var(--deep), var(--dark));
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .service-card {
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s;
+    background: rgba(201,168,76,0.02);
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .service-card:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-4px); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: sepia(1) saturate(2) hue-rotate(5deg);
+  }
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 12px;
+  }
+  .service-desc {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    opacity: 0.65;
+  }
+  .service-urdu {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 1rem;
+    direction: rtl;
+    color: var(--gold);
+    margin-top: 16px;
+    opacity: 0.7;
+  }
+
+  /* ── WHY US / STATS ── */
+  .stats {
+    padding: 80px 40px;
+    background: var(--mid);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-top: 8px;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 120px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .about-text {
+    font-size: 1.15rem;
+    line-height: 2;
+    opacity: 0.75;
+    margin-bottom: 24px;
+  }
+  .about-highlight {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1.6;
+    margin: 40px 0;
+    padding: 32px;
+    border-left: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+    text-align: center;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    padding: 120px 40px;
+    background: linear-gradient(to bottom, var(--dark), var(--deep));
+  }
+  .contact-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .contact-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--cream);
+    margin-bottom: 32px;
+  }
+  .contact-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+  .contact-label {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .contact-value {
+    font-size: 1.05rem;
+    color: var(--cream);
+    line-height: 1.6;
+  }
+  .contact-value a { color: inherit; text-decoration: none; }
+  .contact-value a:hover { color: var(--gold-light); }
+
+  .contact-map {
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 40px;
+    background: rgba(201,168,76,0.03);
+    position: relative;
+  }
+  .contact-map::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.3), transparent, rgba(201,168,76,0.3));
+    z-index: -1;
+  }
+  .map-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .map-urdu {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 1.1rem;
+    direction: rtl;
+    text-align: right;
+    line-height: 2;
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 24px;
+  }
+  .map-address {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    opacity: 0.7;
+    text-align: center;
+  }
+  .map-address strong { color: var(--gold-light); }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    z-index: 999;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+  }
+  .wa-btn {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.4);
+    text-decoration: none;
+    animation: waPulse 2.5s ease infinite;
+    transition: transform 0.3s;
+  }
+  .wa-btn:hover { transform: scale(1.1); }
+  .wa-btn svg { width: 32px; height: 32px; fill: white; }
+  @keyframes waPulse {
+    0%,100% { box-shadow: 0 4px 24px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 40px rgba(37,211,102,0.7), 0 0 0 10px rgba(37,211,102,0.1); }
+  }
+  .wa-label {
+    background: rgba(10,8,4,0.9);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border: 1px solid rgba(201,168,76,0.3);
+    white-space: nowrap;
+    animation: fadeIn 1s ease 2s both;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 40px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    text-align: center;
+    background: var(--deep);
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .footer-tagline {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 24px;
+  }
+  .footer-copy { font-size: 0.8rem; opacity: 0.3; }
+
+  /* ── Scroll Reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Shimmer line ── */
+  .gold-shimmer {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+
+  /* Mobile Nav */
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero-ornament { width: 320px; height: 320px; }
+    .services, .about, .contact { padding: 80px 20px; }
+    .wa-float { bottom: 20px; right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">STL</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ornament"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Established Gold Specialists ✦</div>
+    <p class="hero-urdu">سرگودہا تحلیل اینڈ لیب</p>
+    <h1 class="hero-title">Sargodha Tahleel</h1>
+    <p class="hero-sub">&amp; Lab</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">Your trusted destination for gold buying, selling, and analysis in Faisalabad. Where tradition meets precision.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-gold">📍 Visit Us</a>
+      <a href="https://wa.me/923295600055" target="_blank" class="btn-outline">💬 WhatsApp</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-grid">
+    <div class="reveal">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Trusted Dealers</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-num">24K</div>
+      <div class="stat-label">Gold Expertise</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Expert Specialists</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-num">✦</div>
+      <div class="stat-label">Premium Service</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-header reveal">
+    <div class="section-tag">What We Offer</div>
+    <h2 class="section-title">Our Services</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">🏅</span>
+      <h3 class="service-name">Gold Purchase</h3>
+      <p class="service-desc">We buy gold of all types — jewellery, bars, coins — at fair and competitive market rates with complete transparency.</p>
+      <p class="service-urdu">سونے کی خریداری بہترین نرخوں پر</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">⚖️</span>
+      <h3 class="service-name">Gold Analysis & Testing</h3>
+      <p class="service-desc">Accurate purity testing and analysis using professional-grade tools. Know exactly what your gold is worth.</p>
+      <p class="service-urdu">سونے کی تحلیل اور پیورٹی ٹیسٹ</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">💎</span>
+      <h3 class="service-name">Retail Gold Sales</h3>
+      <p class="service-desc">Purchase gold in small or large quantities. Parcel gold buying and selling available for all budgets.</p>
+      <p class="service-urdu">پرچون سونے کی خریداری بھی کی جاتی ہے</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-header reveal">
+    <div class="section-tag">Our Story</div>
+    <h2 class="section-title">Trusted. Transparent. <span class="gold-shimmer">Precise.</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="about-text reveal">Sargodha Tahleel & Lab is a premier gold analysis and trading establishment based in the heart of Faisalabad's Rail Bazar. We have built our reputation on honesty, expertise, and providing our clients with fair valuations and trustworthy transactions.</p>
+  <div class="about-highlight reveal">
+    "We believe every piece of gold tells a story — and we help you understand its true value."
+  </div>
+  <p class="about-text reveal">Led by Muhammad Wasif and Abu Huzaifa, our team brings deep knowledge of gold markets and testing methodologies. Whether you're buying, selling, or simply wanting your gold assessed, we provide a professional and welcoming experience.</p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-header reveal">
+    <div class="section-tag">Find Us</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <h3>Contact Details</h3>
+
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div>
+          <div class="contact-label">Muhammad Wasif</div>
+          <div class="contact-value">
+            <a href="tel:+923295600055">0329-5600055</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div>
+          <div class="contact-label">Abu Huzaifa</div>
+          <div class="contact-value">
+            <a href="tel:+923057366565">0305-7366565</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-icon">💬</span>
+        <div>
+          <div class="contact-label">WhatsApp</div>
+          <div class="contact-value">
+            <a href="https://wa.me/923295600055" target="_blank">Chat with us on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-icon">🕐</span>
+        <div>
+          <div class="contact-label">Working Hours</div>
+          <div class="contact-value">Open Daily · Morning to Evening</div>
+        </div>
+      </div>
+
+      <a href="https://wa.me/923295600055" target="_blank" class="btn-gold" style="display:inline-flex;margin-top:16px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us Now
+      </a>
+    </div>
+
+    <div class="contact-map reveal">
+      <div class="map-title">📍 Our Location</div>
+      <div class="map-urdu">جمال پلازہ گراؤنڈ فلور شاپ نمبر 3<br>ریل بازار فیصل آباد</div>
+      <div class="map-address">
+        <strong>Jamal Plaza</strong><br>
+        Ground Floor, Shop No. 3<br>
+        Rail Bazar, Faisalabad<br><br>
+        <a href="https://maps.google.com/?q=Rail+Bazar+Faisalabad" target="_blank" class="btn-outline" style="font-size:0.8rem;padding:10px 20px;">
+          🗺 Open in Maps
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Sargodha Tahleel & Lab</div>
+  <div class="footer-tagline">سرگودہا تحلیل اینڈ لیب · Faisalabad</div>
+  <div class="footer-copy">Gold Specialists · Jamal Plaza, Rail Bazar, Faisalabad · 0329-5600055</div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float">
+  <span class="wa-label">Chat on WhatsApp ✦</span>
+  <a href="https://wa.me/923295600055" target="_blank" class="wa-btn" title="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
+<script>
+// ── Gold Particle System ──
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = -Math.random() * 0.4 - 0.1;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.life = 1;
+    this.decay = Math.random() * 0.003 + 0.001;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.life -= this.decay;
+    if (this.life <= 0) this.reset();
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.life * this.opacity;
+    ctx.fillStyle = `hsl(${42 + Math.random()*15}, 70%, 60%)`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ── Scroll Reveal ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// ── Counter Animation ──
+function animateCounter(el, target, suffix = '') {
+  let start = 0;
+  const duration = 2000;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const val = Math.floor(progress * target);
+    el.textContent = val + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+</script>
+</body>
+</html>
